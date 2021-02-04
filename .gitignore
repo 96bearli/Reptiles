@@ -1,3 +1,8 @@
 cache
 .gitignore
 music.py
+build
+dist/music.163.com.exe
+music.163.com.spec
+解密.py
+解密2.py

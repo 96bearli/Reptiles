@@ -14,6 +14,7 @@ import eyed3
 # 内嵌lrc歌词
 headers = {
     'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 12239.67.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.102 Safari/537.36'}
+path = "./cache/"
 
 
 def get_ids(key_word):
@@ -30,7 +31,7 @@ def get_ids(key_word):
 
 
 def song_info(alist):
-    audiofile = eyed3.load('./cache/' + alist[1] + "_" + alist[2] + '.mp3')  # 读取mp3文件
+    audiofile = eyed3.load(path + alist[1] + "_" + alist[2] + '.mp3')  # 读取mp3文件
     audiofile.initTag()  # 初始化所有标签信息，将之前所有的标签清除
     audiofile.tag.artist = alist[2]  # 参与创作的艺术家
     audiofile.tag.album = "None"  # 唱片集
@@ -44,9 +45,9 @@ def get_song(alist):
     url = "http://music.163.com/song/media/outer/url?id=" + alist[0] + ".mp3"
     print("url:" + url, "\nBegin to download!")
     response = requests.get(url=url, headers=headers).content
-    if not os.path.exists("./cache"):
-        os.mkdir('d:/music')
-    with open('./cache/' + alist[1] + "_" + alist[2] + '.mp3', "wb") as f:
+    if not os.path.exists(path):
+        os.mkdir(path)
+    with open(path + alist[1] + "_" + alist[2] + '.mp3', "wb") as f:
         f.write(response)
     print("Get it!Begin to write Song_info")
     try:
@@ -54,7 +55,7 @@ def get_song(alist):
     except Exception as e:
         print("* Song_info failed to change")
         print(e)
-    print("Done!Please check ./cache/" + alist[1] + "_" + alist[2] + '.mp3')
+    print("Done!Please check "+ path + alist[1] + "_" + alist[2] + '.mp3')
     print("-" * 20)
 
 
@@ -131,7 +132,7 @@ if __name__ == '__main__':
         while True:
             i += 1
             print("循环运行第%d次" % i)
-            if i%3==0:
+            if i % 3 == 0:
                 print("* 小提示:可以试试关键词输入'rand'")
             get_a_song()
     elif chose == "3":

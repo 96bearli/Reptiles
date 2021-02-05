@@ -47,7 +47,12 @@ def get_song(alist):
     response = requests.get(url=url, headers=headers).content
     if not os.path.exists(path):
         os.mkdir(path)
+<<<<<<< HEAD
+    path_song = path + alist[1] + "_" + alist[2] + ".mp3"
+    with open(path_song, "wb") as f:
+=======
     with open(path + alist[1] + "_" + alist[2] + '.mp3', "wb") as f:
+>>>>>>> a273e7c180b52e68875c36533dee4e667f25f7f9
         f.write(response)
     print("Get it!Begin to write Song_info")
     try:
@@ -55,9 +60,20 @@ def get_song(alist):
     except Exception as e:
         print("* Song_info failed to change")
         print(e)
+<<<<<<< HEAD
+        os.remove(path_song)
+        print("这首音乐很可能没有版权或是会员音乐，已自动删除无效文件")
+        print("可自行查看该音乐页面: https://music.163.com/song?id=%s"%alist[0])
+        print("-" * 20)
+        return
+    print("Done!Please check "+ path_song)
+    print("-" * 20)
+    return True
+=======
     print("Done!Please check "+ path + alist[1] + "_" + alist[2] + '.mp3')
     print("-" * 20)
 
+>>>>>>> a273e7c180b52e68875c36533dee4e667f25f7f9
 
 def get_a_song():
     key_word = input("请输入关键词（例如:雪之花）：")
@@ -78,6 +94,48 @@ def get_a_song():
 
 def get_playlist(play_id):
     print(play_id)
+<<<<<<< HEAD
+    # api_1 limit = 10
+    # url = "https://v1.alapi.cn/api/music/playlist?"
+    # api_2 limit = 20
+    url = "https://music.163.com/api/playlist/detail?"
+    heads = {
+            "cookie":"_iuqxldmzr_=32; _ntes_nnid=863e13c78a4a5ba7d47e9073faffb647,1605611347172; _ntes_nuid=863e13c78a4a5ba7d47e9073faffb647; NMTID=00OtgIakEtHkOFd80-LpEJ4cXGtlp8AAAF11eUvdQ; WM_TID=NfxKZ2IebwRAEBQEFUd7IuJm%2BGPP%2F%2BX8; __remember_me=true; WEVNSM=1.0.0; WNMCID=mogxjy.1612540448188.01.0; WM_NI=qfu4KxqnJ97WaGzVTs4%2BXWMz%2FbKedmxbshEMMqHDvPIU8mroWYGDEuZZna4S7Hqfv1NMG1OtzRqwQuIQA1YxcQlh90PXCZc68jUzxe6AZyx2Alr7F7Lu7k6AzcSLEQ8Bc3U%3D; WM_NIKE=9ca17ae2e6ffcda170e2e6eed5c754929aa39bb6598feb8fa3d85a928f8aaab56af1e8add8db679199f8dae72af0fea7c3b92ab3babbd5ca74b3b286dab65da399b6b7d779f8f598b8d072edbe8586e767bcbebd89c8478faf88a5f55c8b8bf88ef165958789a5c87f9a86a282b759f598bf87f53b8e9389d2ce80ba8ebf98d47f8b8f8fd2dc74a18fa489bc3c94888dbbe23efcb69b9bfb6ff69f969afb3a83b4bed8c53d90abf98cb54bbabd9dadc85bfc9eadd4d837e2a3; __csrf=fae4abfee1fd5074e6d23c4941de0766; MUSIC_U=01ffdb13bd0564fc595a65a39457155c74c56d7f5e872149b8efb2f0d2ed18ea0931c3a9fbfe3df2; hb_MA-B407-E266474A0BB8_source=www.163yun.com; JSESSIONID-WYYY=NRn8XlyQ4HUhFUU3WjvsAg%2BR4IrDVN1HcixPbKsjob3XDDb27R74kRnEE1Ta4Z3EOiDAO02fqmp%2BfxNa9hC%2FJxF9Xil3%5C0HhcdhXAbFjTWHqHuFG43seEocXc2TGuGr0EwN%2F8J1Q3UQZ1N8C9%2FmM3GY%5Cn6ZBcWbR5ZkVAV%2F5SzddMVaM%3A1612550671071",
+            "user-agent":"Mozilla/5.0 (X11; CrOS x86_64 12239.67.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.102 Safari/537.36"
+            }
+    response = requests.get(url + play_id, headers=heads)
+    # find_nickname = re.compile(r'"nickname": "(.+?)",.+?"signature": "(.+?)",', re.S)
+    find_nickname = re.compile(r'"nickname":"(.+?)","signature":"(.+?)"')
+    # requests.request("POST", url, data=play_id, headers=headers)
+    # api_1.re
+    # find_info = re.compile(r'"name": "(.+?)",.+?"id": (\d+?),.+?"user_name": "(.+?)".+?}', re.S)
+    # api_2.re
+    # find_info = re.compile(r'},{"name":"(.+?)","id":(\d+?),.+?"artists":[{"name":"(.+?)","id"', re.S)
+    # 这个规则总是莫名其妙多出一节,没办法，学习给截取长度加限制来搞定的
+    find_info = re.compile(r'\{"name":"(.{1,50}?)","id":(\d*?),"position":\d*?,"alias":\[\],"status":\d*?,"fee":\d*?,"copyrightId":\d*?,"disc":".*?","no":\d*?,"artists":\[\{"name":"(.+?)"', re.S)
+    nickname = re.findall(find_nickname, response.text)[0]
+    print("歌单作者:" + nickname[0])
+    print("作者签名:\n" + nickname[1].replace("\\n","\n"))
+    print("-" * 20)
+    info_list = re.findall(find_info, response.text)
+    with open("./cache/log.txt","w",encoding = "utf-8")as f:
+        # f.write(response.text)
+        for infos in info_list:
+            for info in infos:
+                f.write(info+"\n")
+            f.write("\n")
+    print(len(info_list))
+    # return
+    print("开始依次下载")
+    print("-" * 20)
+    success_count = 0
+    for info in info_list:
+        print("当前进度:%d/%d" % (info_list.index(info) + 1, len(info_list)))
+        info_list2 = [info[1], info[0], info[2]]
+        if get_song(info_list2):
+            success_count += 1
+    print("全部下载完毕,成功%i首,失败%i首\n支持正版是音乐创作的动力源泉"%(success_count,len(info_list)-success_count))
+=======
     url = "https://v1.alapi.cn/api/music/playlist?"
     response = requests.get(url + play_id, headers=headers)
     # requests.request("POST", url, data=play_id, headers=headers)
@@ -96,6 +154,7 @@ def get_playlist(play_id):
         info_list2 = [info[1], info[0], info[2]]
         get_song(info_list2)
     print("全部下载完毕")
+>>>>>>> a273e7c180b52e68875c36533dee4e667f25f7f9
 
 
 def get_random():
@@ -136,7 +195,11 @@ if __name__ == '__main__':
                 print("* 小提示:可以试试关键词输入'rand'")
             get_a_song()
     elif chose == "3":
+<<<<<<< HEAD
+        id_input = input("Web_api限制，只能获取最多前20首\n请输入歌单url:")
+=======
         id_input = input("Web_api限制，只能获取前10首\n请输入歌单url:")
+>>>>>>> a273e7c180b52e68875c36533dee4e667f25f7f9
         try:
             playlist_id = re.findall(r"playlist\?(id=\d+)", id_input)[0]
             # https://music.163.com/#/playlist?id=6589223871

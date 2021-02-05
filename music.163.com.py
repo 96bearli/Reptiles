@@ -15,7 +15,8 @@ import eyed3
 headers = {
     'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 12239.67.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.102 Safari/537.36'}
 path = "./cache/"
-
+if not os.path.exists(path):
+    os.mkdir(path)
 
 def get_ids(key_word):
     url = "https://v1.alapi.cn/api/music/search?keyword="
@@ -45,8 +46,6 @@ def get_song(alist):
     url = "http://music.163.com/song/media/outer/url?id=" + alist[0] + ".mp3"
     print("url:" + url, "\nBegin to download!")
     response = requests.get(url=url, headers=headers).content
-    if not os.path.exists(path):
-        os.mkdir(path)
     path_song = path + alist[1] + "_" + alist[2] + ".mp3"
     with open(path_song, "wb") as f:
         f.write(response)
@@ -175,5 +174,13 @@ if __name__ == '__main__':
                 playlist_id = "id=" + re.findall(r"\d+", id_input)[0]
         get_playlist(playlist_id)
     else:
-        print("既然没有选择，那就随机来一首?")
-        get_random()
+        print("既然没有选择，那就随机来几首?")
+        try:
+            nums = int(input("那么几首呢？说个数："))
+        except:
+            print("默认一首")
+            nums = 1
+        for  i in range(nums):
+            get_random()
+            print("第%d次啦"%(i+1))
+        print("结束啦")

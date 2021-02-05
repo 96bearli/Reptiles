@@ -47,12 +47,8 @@ def get_song(alist):
     response = requests.get(url=url, headers=headers).content
     if not os.path.exists(path):
         os.mkdir(path)
-<<<<<<< HEAD
     path_song = path + alist[1] + "_" + alist[2] + ".mp3"
     with open(path_song, "wb") as f:
-=======
-    with open(path + alist[1] + "_" + alist[2] + '.mp3', "wb") as f:
->>>>>>> a273e7c180b52e68875c36533dee4e667f25f7f9
         f.write(response)
     print("Get it!Begin to write Song_info")
     try:
@@ -60,7 +56,6 @@ def get_song(alist):
     except Exception as e:
         print("* Song_info failed to change")
         print(e)
-<<<<<<< HEAD
         os.remove(path_song)
         print("这首音乐很可能没有版权或是会员音乐，已自动删除无效文件")
         print("可自行查看该音乐页面: https://music.163.com/song?id=%s"%alist[0])
@@ -69,11 +64,6 @@ def get_song(alist):
     print("Done!Please check "+ path_song)
     print("-" * 20)
     return True
-=======
-    print("Done!Please check "+ path + alist[1] + "_" + alist[2] + '.mp3')
-    print("-" * 20)
-
->>>>>>> a273e7c180b52e68875c36533dee4e667f25f7f9
 
 def get_a_song():
     key_word = input("请输入关键词（例如:雪之花）：")
@@ -94,7 +84,6 @@ def get_a_song():
 
 def get_playlist(play_id):
     print(play_id)
-<<<<<<< HEAD
     # api_1 limit = 10
     # url = "https://v1.alapi.cn/api/music/playlist?"
     # api_2 limit = 20
@@ -135,26 +124,6 @@ def get_playlist(play_id):
         if get_song(info_list2):
             success_count += 1
     print("全部下载完毕,成功%i首,失败%i首\n支持正版是音乐创作的动力源泉"%(success_count,len(info_list)-success_count))
-=======
-    url = "https://v1.alapi.cn/api/music/playlist?"
-    response = requests.get(url + play_id, headers=headers)
-    # requests.request("POST", url, data=play_id, headers=headers)
-    find_nickname = re.compile(r'"nickname": "(.+?)",.+?"signature": "(.+?)",', re.S)
-    nickname = re.findall(find_nickname, response.text)[0]
-    print("歌单作者:" + nickname[0])
-    print(nickname[1])
-    print("-" * 20)
-    find_info = re.compile(r'"name": "(.+?)",.+?"id": (\d+?),.+?"user_name": "(.+?)".+?}', re.S)
-    info_list = re.findall(find_info, response.text)
-    # print(info_list,len(info_list),sep="\n")
-    print("开始依次下载")
-    print("-" * 20)
-    for info in info_list:
-        print("当前进度:%d/%d" % (info_list.index(info) + 1, len(info_list)))
-        info_list2 = [info[1], info[0], info[2]]
-        get_song(info_list2)
-    print("全部下载完毕")
->>>>>>> a273e7c180b52e68875c36533dee4e667f25f7f9
 
 
 def get_random():
@@ -195,11 +164,7 @@ if __name__ == '__main__':
                 print("* 小提示:可以试试关键词输入'rand'")
             get_a_song()
     elif chose == "3":
-<<<<<<< HEAD
         id_input = input("Web_api限制，只能获取最多前20首\n请输入歌单url:")
-=======
-        id_input = input("Web_api限制，只能获取前10首\n请输入歌单url:")
->>>>>>> a273e7c180b52e68875c36533dee4e667f25f7f9
         try:
             playlist_id = re.findall(r"playlist\?(id=\d+)", id_input)[0]
             # https://music.163.com/#/playlist?id=6589223871

@@ -15,18 +15,16 @@ import eyed3
 headers = {
     'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 12239.67.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.102 Safari/537.36'} 
 # print("本工具用于搜索并下载来自网易云音乐的免费播放歌曲\n")
-# path = input("请先输入歌曲保存路径，默认为./cache\n")
-# path = path + "/"
-path = "./cache/"
-try:
+choice = input("需要自定义音乐保存路径么？\n* 1.默认路径'./cache/'\n* 2.自定义路径\n请选择:")
+if choice == "2":
+    path = input("请输入路径，比如./cache/\n")
     if not os.path.exists(path):
         os.mkdir(path)
-except:
+else:
     path = "./cache/"
-    print("路径非法，使用默认路径")
     if not os.path.exists(path):
         os.mkdir(path)
-
+print("-"*20)
 
 
 def get_ids(key_word):

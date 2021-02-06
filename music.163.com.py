@@ -13,10 +13,20 @@ import eyed3
 # 内嵌专辑图片
 # 内嵌lrc歌词
 headers = {
-    'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 12239.67.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.102 Safari/537.36'}
+    'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 12239.67.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.102 Safari/537.36'} 
+# print("本工具用于搜索并下载来自网易云音乐的免费播放歌曲\n")
+# path = input("请先输入歌曲保存路径，默认为./cache\n")
+# path = path + "/"
 path = "./cache/"
-if not os.path.exists(path):
-    os.mkdir(path)
+try:
+    if not os.path.exists(path):
+        os.mkdir(path)
+except:
+    path = "./cache/"
+    print("路径非法，使用默认路径")
+    if not os.path.exists(path):
+        os.mkdir(path)
+
 
 
 def get_ids(key_word):
@@ -110,7 +120,7 @@ def get_playlist(play_id):
     print("作者签名:\n" + nickname[1].replace("\\n", "\n"))
     print("-" * 20)
     info_list = re.findall(find_info, response.text)
-    with open("./cache/log.txt", "w", encoding="utf-8")as f:
+    with open("./log.txt", "w", encoding="utf-8")as f:
         # f.write(response.text)
         for infos in info_list:
             for info in infos:

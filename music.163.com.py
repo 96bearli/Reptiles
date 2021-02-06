@@ -188,4 +188,5 @@ if __name__ == '__main__':
             get_random()
             print("第%d次啦" % (i + 1))
         print("结束啦")
-    input("按回车退出程序")
+    print("-" * 20)
+    input("按回车退出程序...")

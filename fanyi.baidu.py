@@ -14,7 +14,7 @@ def translate():
         response = requests.post(url=post_url, data=data, headers=headers)
     except:
         print("未找到释义！")
-        exit()
+        return
     dic_obj = str(response.json())
     # print(dic_obj)
     # findk = re.compile(r'"k": "(.*?)"')
@@ -27,11 +27,13 @@ def translate():
     if len(keys) == 0:
         print("无释义")
         print('-' * 20)
-        exit()
+        return 
     for i in range(len(keys)):
         print("【" + keys[i] + "】:\t" + values[i])
     print("-" * 20)
     print("结果来自百度翻译")
-
-
-translate()
+i = 0
+while True:
+    i += 1
+    print("当前为第%d次查询"%i)
+    translate()

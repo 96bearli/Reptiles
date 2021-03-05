@@ -75,8 +75,10 @@ def get_song(alist):
 
 
 def get_a_song():
+
     key_word = input("请输入关键词（例如:雪之花）：")
-    if key_word == "rand":
+    if key_word == "rand" or len(key_word)== 0:
+        print("开始随机音乐")
         get_random()
         return
     id_name_list = get_ids(key_word)
